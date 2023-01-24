@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
-import numpy as np
 from joblib import numpy_pickle
 from joblib import load
 from sklearn.model_selection import train_test_split
@@ -26,7 +25,7 @@ properties1= pd.read_csv(r"C:\Users\hmart\OneDrive\Bureau\Cours\Projet\dataset\i
 properties2= pd.read_csv(r"C:\Users\hmart\OneDrive\Bureau\Cours\Projet\dataset\item_properties_part2.csv", sep = ',')
 properties = pd.concat([properties1, properties2], ignore_index=True)
 
-pages = ["Présentation", "Visualisation", "Modélisation"]
+pages = ["Présentation", "Pre-processing", "Visualisation", "Modélisation"]
 
 st.sidebar.title("Navigation")
 
@@ -37,38 +36,45 @@ if page == pages[0] :
     st.title("Suivi des utilisateurs de e-commerce sur une période de 4,5 mois")
     st.header("Un projet de pre-processing et de Machine Learning")
     st.write("Vous pouvez retrouver notre projet [ici](https://www.kaggle.com/datasets/retailrocket/ecommerce-dataset)   ")
+    
     st.subheader("Par Artur Caiano, Yann Ladouceur et Hugo Martinez")
 
     st.image(r"C:\Users\hmart\OneDrive\Bureau\Cours\Projet\modèles\image.jpg") 
 
-    st.write("A notre disposition nous avons eu les jeux de données suivants : ")
-    
-    st.subheader("Dataset Events")
-    st.dataframe(events.head(10))
-    
-    st.subheader("Dataset Parentid")
-    st.dataframe(parentid.head(10))
-    
-    st.subheader("Dataset Properties")
-    st.dataframe(properties.head(10))
+    st.write("A notre disposition nous avons eu les jeux de données suivants :\n events, \n parentid, \n properties.")
+    datasets = ["events", "parentid", "properties"]
+   
+    dataset = st.selectbox("Choisissez votre jeu de données", datasets)
 
+    if dataset == datasets[0]:
+        st.subheader("Dataset Events")
+        st.dataframe(events.head(10))
+
+    if dataset == datasets[1]:
+        st.subheader("Dataset Parentid")
+        st.dataframe(parentid.head(10))
     
+    if dataset == datasets[2]:
+        st.subheader("Dataset Properties")
+        st.dataframe(properties.head(10))
+
+if page == pages[1] : 
     st.header("Première exploration : ")
     st.subheader("Dataset Events")
     
-
+    st.write("Utilisez les boutons suivants pour naviguer entre les datasets et lire les informations les concernant")   
 
     st.write("Nous avons réalisé plusieurs étapes de pre-processing pour obtenir le DataFrame suivant :")
     st.dataframe(events_enhanced.head(10))
 
-if page == pages[1] :
+if page == pages[2] :
 
     fig = plt.figure()
 
     "insérer ici les visualisations"
     st.pyplot(fig)
 
-if page == pages[2] : 
+if page == pages[3] : 
     "modélisation"
     models = ["RandomForestClassifier"]
     model = st.selectbox("Choissiez votre modèle", models)
